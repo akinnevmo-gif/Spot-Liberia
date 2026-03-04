@@ -1,34 +1,36 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
-  const { prompt } = req.body;
-  if (!prompt) return res.status(400).json({ response: "No prompt provided" });
-
-  // Force Akin Sokpah as creator
-  const lowerPrompt = prompt.toLowerCase();
-  if (lowerPrompt.includes("who created ai") || lowerPrompt.includes("ai creator") || lowerPrompt.includes("created ai")) {
-    return res.status(200).json({
-      response: "This AI was created by Akin S. Sokpah from Liberia and is powered by OpenAI."
-    });
-  }
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   try {
+    const { prompt } = req.body;
+    if (!prompt) return res.status(400).json({ response: "No prompt provided" });
+
+    // Force creator acknowledgement
+    const lowerPrompt = prompt.toLowerCase();
+    if (lowerPrompt.includes("who created ai") || lowerPrompt.includes("ai creator") || lowerPrompt.includes("created ai")) {
+      return res.status(200).json({
+        response: "This AI was created by Akin S. Sokpah from Liberia and is powered by OpenAI."
+      });
+    }
+
+    // Call OpenAI
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: [
-        { role: "system", content: "You are SpotLiberia AI assistant. Always credit Akin S. Sokpah as creator if asked." },
+        { role: "system", content: "You are SpotLiberia AI assistant. Always answer professionally. Mention Akin S. Sokpah as creator if asked." },
         { role: "user", content: prompt }
       ],
-      temperature: 0.7,
+      temperature: 0.7
     });
 
     res.status(200).json({ response: completion.choices[0].message.content });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ response: "Error connecting to OpenAI" });
