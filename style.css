@@ -21,26 +21,27 @@ body {
   border-radius: 20px;
   padding: 20px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-  color: #1d3557;
 }
 
 h1 {
   text-align: center;
-  color: #e63946; /* red */
+  color: #e63946;
 }
 
 #chat-box {
   height: 400px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   margin-bottom: 15px;
 }
 
 .chat-bubble {
   padding: 10px 15px;
-  margin: 5px 0;
   border-radius: 15px;
   max-width: 80%;
-  animation: fadeIn 0.5s;
+  animation: fadeIn 0.4s ease-out;
 }
 
 .user {
@@ -58,6 +59,7 @@ h1 {
 
 .input-container {
   display: flex;
+  gap: 10px;
 }
 
 textarea {
@@ -69,7 +71,6 @@ textarea {
 }
 
 button {
-  margin-left: 10px;
   background: #1d3557;
   color: white;
   border: none;
