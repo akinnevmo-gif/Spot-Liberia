@@ -1,43 +1,19 @@
-const player = document.getElementById('player');
-let playerX = 50;
-let playerY = 50;
+const sendBtn = document.getElementById('send');
+const promptBox = document.getElementById('prompt');
+const responseBox = document.getElementById('response');
 
-// Move player with arrow keys
-document.addEventListener('keydown', (e) => {
-  if(e.key === "ArrowUp") playerY -= 2;
-  if(e.key === "ArrowDown") playerY += 2;
-  if(e.key === "ArrowLeft") playerX -= 2;
-  if(e.key === "ArrowRight") playerX += 2;
-  
-  // Keep player within bounds
-  if(playerX < 0) playerX = 0;
-  if(playerX > 95) playerX = 95;
-  if(playerY < 0) playerY = 0;
-  if(playerY > 95) playerY = 95;
+sendBtn.addEventListener('click', async () => {
+  const prompt = promptBox.value;
+  if(!prompt) return alert("Type a question first!");
 
-  player.style.left = playerX + "%";
-  player.style.top = playerY + "%";
-});
+  responseBox.textContent = "Loading...";
 
-// NPCs move randomly
-function moveNPC(npcId) {
-  const npc = document.getElementById(npcId);
-  let x = Math.random() * 90;
-  let y = Math.random() * 90;
-  npc.style.left = x + "%";
-  npc.style.top = y + "%";
-}
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt })
+  });
 
-// Move NPCs every 2 seconds
-setInterval(() => {
-  moveNPC('npc1');
-  moveNPC('npc2');
-}, 2000);
-
-// Clickable schools
-document.getElementById('school1').addEventListener('click', () => {
-  alert("Welcome to Dr. Abraham S. Borbor!");
-});
-document.getElementById('school2').addEventListener('click', () => {
-  alert("Welcome to Morley School of Excellence!");
+  const data = await res.json();
+  responseBox.textContent = data.response || "No response received";
 });
