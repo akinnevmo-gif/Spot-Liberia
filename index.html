@@ -1,17 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>SpotLiberia AI</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpotLiberia AI</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>SpotLiberia AI</h1>
-    <textarea id="prompt" placeholder="Ask anything..." rows="5"></textarea>
+
+<!-- Background 3D Flag -->
+<div id="flag-background"></div>
+
+<!-- Sweet melody -->
+<audio id="bg-music" src="assets/music.mp3" autoplay loop></audio>
+
+<div class="chat-container">
+  <h1>SpotLiberia AI</h1>
+  <div id="chat-box"></div>
+  <div class="input-container">
+    <textarea id="prompt" placeholder="Ask anything about Liberia..."></textarea>
     <button id="send">Send</button>
-    <div id="response"></div>
   </div>
-  <script src="script.js"></script>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
