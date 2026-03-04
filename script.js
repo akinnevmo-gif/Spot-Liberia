@@ -17,13 +17,11 @@ sendBtn.addEventListener('click', async () => {
       body: JSON.stringify({ prompt })
     });
 
-    if (!res.ok) throw new Error('API request failed');
-
     const data = await res.json();
     updateLastBotMessage(data.response || "No response received");
 
   } catch (err) {
-    updateLastBotMessage("Error: Unable to get response. Check API key or logs.");
+    updateLastBotMessage("Error: unable to get a response.");
     console.error(err);
   }
 });
@@ -41,7 +39,7 @@ function updateLastBotMessage(text) {
   botBubbles[botBubbles.length - 1].textContent = text;
 }
 
-// 3D Liberian Flag
+// 3D Liberia Flag with Three.js
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -55,7 +53,7 @@ loader.load('assets/liberia-flag.glb', (gltf) => {
   flag.position.z = -5;
   function animate() {
     requestAnimationFrame(animate);
-    flag.rotation.y += 0.003;
+    flag.rotation.y += 0.004;
     renderer.render(scene, camera);
   }
   animate();
