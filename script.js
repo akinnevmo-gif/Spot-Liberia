@@ -4,20 +4,28 @@ const chatBox = document.getElementById('chat-box');
 
 sendBtn.addEventListener('click', async () => {
   const prompt = promptBox.value.trim();
-  if(!prompt) return;
+  if (!prompt) return;
 
   addMessage('user', prompt);
   promptBox.value = '';
   addMessage('bot', 'Loading...');
 
-  const res = await fetch('/api/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt })
-  });
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
 
-  const data = await res.json();
-  updateLastBotMessage(data.response || "No response received");
+    if (!res.ok) throw new Error('API request failed');
+
+    const data = await res.json();
+    updateLastBotMessage(data.response || "No response received");
+
+  } catch (err) {
+    updateLastBotMessage("Error: Unable to get response. Check API key or logs.");
+    console.error(err);
+  }
 });
 
 function addMessage(type, text) {
@@ -47,7 +55,7 @@ loader.load('assets/liberia-flag.glb', (gltf) => {
   flag.position.z = -5;
   function animate() {
     requestAnimationFrame(animate);
-    flag.rotation.y += 0.003; // smooth rotation
+    flag.rotation.y += 0.003;
     renderer.render(scene, camera);
   }
   animate();
