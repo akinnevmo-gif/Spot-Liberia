@@ -1,11 +1,10 @@
-// Chat logic
 const sendBtn = document.getElementById('send');
 const promptBox = document.getElementById('prompt');
 const chatBox = document.getElementById('chat-box');
 
 sendBtn.addEventListener('click', async () => {
   const prompt = promptBox.value.trim();
-  if (!prompt) return;
+  if(!prompt) return;
 
   addMessage('user', prompt);
   promptBox.value = '';
@@ -34,7 +33,7 @@ function updateLastBotMessage(text) {
   botBubbles[botBubbles.length - 1].textContent = text;
 }
 
-// Three.js 3D Liberian Flag
+// 3D Liberian Flag
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -48,7 +47,7 @@ loader.load('assets/liberia-flag.glb', (gltf) => {
   flag.position.z = -5;
   function animate() {
     requestAnimationFrame(animate);
-    flag.rotation.y += 0.005;
+    flag.rotation.y += 0.003; // smooth rotation
     renderer.render(scene, camera);
   }
   animate();
