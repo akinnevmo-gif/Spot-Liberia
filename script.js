@@ -1,12 +1,15 @@
+// Chat logic
 const sendBtn = document.getElementById('send');
 const promptBox = document.getElementById('prompt');
-const responseBox = document.getElementById('response');
+const chatBox = document.getElementById('chat-box');
 
 sendBtn.addEventListener('click', async () => {
-  const prompt = promptBox.value;
-  if(!prompt) return alert("Type a question first!");
+  const prompt = promptBox.value.trim();
+  if (!prompt) return;
 
-  responseBox.textContent = "Loading...";
+  addMessage('user', prompt);
+  promptBox.value = '';
+  addMessage('bot', 'Loading...');
 
   const res = await fetch('/api/chat', {
     method: 'POST',
@@ -15,5 +18,39 @@ sendBtn.addEventListener('click', async () => {
   });
 
   const data = await res.json();
-  responseBox.textContent = data.response || "No response received";
+  updateLastBotMessage(data.response || "No response received");
 });
+
+function addMessage(type, text) {
+  const bubble = document.createElement('div');
+  bubble.className = `chat-bubble ${type}`;
+  bubble.textContent = text;
+  chatBox.appendChild(bubble);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function updateLastBotMessage(text) {
+  const botBubbles = document.querySelectorAll('.bot');
+  botBubbles[botBubbles.length - 1].textContent = text;
+}
+
+// Three.js 3D Liberian Flag
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById('flag-background').appendChild(renderer.domElement);
+
+const loader = new THREE.GLTFLoader();
+loader.load('assets/liberia-flag.glb', (gltf) => {
+  const flag = gltf.scene;
+  scene.add(flag);
+  flag.position.z = -5;
+  function animate() {
+    requestAnimationFrame(animate);
+    flag.rotation.y += 0.005;
+    renderer.render(scene, camera);
+  }
+  animate();
+});
+camera.position.z = 5;
