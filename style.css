@@ -1,0 +1,36 @@
+body {
+  background-color: #87ceeb; /* sky blue */
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 1.5em;
+  overflow: hidden;
+  height: 100vh;
+}
+
+#player, .npc, .school {
+  position: absolute;
+  cursor: pointer;
+}
+
+#player {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.npc {
+  font-size: 2em;
+}
+
+#npc1 { top: 20%; left: 30%; }
+#npc2 { top: 70%; left: 60%; }
+
+.school {
+  background-color: white;
+  padding: 5px 10px;
+  border: 2px solid black;
+  font-size: 0.9em;
+}
+
+#school1 { top: 10%; left: 10%; }
+#school2 { top: 80%; left: 20%; }
